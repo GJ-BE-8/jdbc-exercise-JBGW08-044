@@ -6,8 +6,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Getter
-@Setter
+
 public class Student {
 
     public enum GENDER{
@@ -25,13 +24,41 @@ public class Student {
 //
 //    }
 
-    public Student(String id, String name, GENDER gender, Integer age) {
+    public Student(String id, String name, GENDER gender, Integer age, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.age = age;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
+    }
+
+    public Student(String id, String name, GENDER gender, Integer age) {
+        this(id, name, gender, age, LocalDateTime.now());
     }
 
     //lombok에 있는 @Getter와 @Setter 어노테이션으로 나머지 매서드 대체
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public GENDER getGender() {
+        return gender;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+
+
+
 }
