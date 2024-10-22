@@ -75,7 +75,8 @@ class StatementStudentRepositoryTest {
     void update() {
 
         Student student = new Student("student1","엔에이치엔아카데미", Student.GENDER.F,30);
-        studentRepository.update(student);
+        int result = studentRepository.update(student);
+        //Assume.assumeFalse(result>0);
 
         Optional<Student> newStudent = studentRepository.findById(student.getId());
 
@@ -94,9 +95,9 @@ class StatementStudentRepositoryTest {
     @DisplayName("delete : student1")
     void deleteById() {
         String id="student1";
-        studentRepository.deleteById(id);
-        Optional<Student> student = studentRepository.findById(id);
-        Assertions.assertFalse(student.isPresent());
+        int result = studentRepository.deleteById(id);
+        Optional<Student> studentDto = studentRepository.findById(id);
+        Assertions.assertFalse(studentDto.isPresent());
     }
 
 }
