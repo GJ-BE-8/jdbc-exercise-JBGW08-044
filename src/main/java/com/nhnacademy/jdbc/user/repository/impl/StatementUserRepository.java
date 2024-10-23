@@ -14,7 +14,7 @@ public class StatementUserRepository implements UserRepository {
     @Override
     public Optional<User> findByUserIdAndUserPassword(String userId, String userPassword) {
         //todo#1 아이디, 비밀번호가 일치하는 User 조회
-        String sql = String.format("SELECT * FROM jdbc_users WHERE user_id = %s AND user_password = %s", userId, userPassword);
+        String sql = String.format("SELECT * FROM jdbc_users WHERE user_id = '%s' AND user_password = '%s'", userId, userPassword);
         log.debug("findByUserIdAndUserPassword: {}", sql);
         try(Connection connection = DbUtils.getConnection();
         Statement statement = connection.createStatement();
@@ -50,7 +50,7 @@ public class StatementUserRepository implements UserRepository {
     @Override
     public int save(User user) {
         //todo#3- User 저장
-        String sql = String.format("INSERT INTO jdbc_users(user_id, user_name, user_password) VALUES(%s, '%s', '%s')", user.getUserId(), user.getUserName(), user.getUserPassword());
+        String sql = String.format("INSERT INTO jdbc_users(user_id, user_name, user_password) VALUES('%s', '%s', '%s')", user.getUserId(), user.getUserName(), user.getUserPassword());
         log.debug("save: {}", sql);
         try(Connection connection = DbUtils.getConnection();
         Statement statement = connection.createStatement()) {
@@ -65,7 +65,7 @@ public class StatementUserRepository implements UserRepository {
     @Override
     public int updateUserPasswordByUserId(String userId, String userPassword) {
         //todo#4-User 비밀번호 변경
-        String sql = String.format("UPDATE jdbc_users SET user_password = %s WHERE user_id = %s", userPassword, userId);
+        String sql = String.format("UPDATE jdbc_users SET user_password = '%s' WHERE user_id = '%s'", userPassword, userId);
         log.debug("updateUserPasswordByUserId: {}", sql);
         try(Connection connection = DbUtils.getConnection();
         Statement statement = connection.createStatement()) {
