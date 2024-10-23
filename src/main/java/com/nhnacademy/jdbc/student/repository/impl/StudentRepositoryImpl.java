@@ -40,6 +40,12 @@ public class StudentRepositoryImpl implements StudentRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return Optional.empty();
     }
