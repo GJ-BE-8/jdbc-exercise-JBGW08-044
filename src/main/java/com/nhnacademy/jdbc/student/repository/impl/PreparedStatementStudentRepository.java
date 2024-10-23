@@ -36,7 +36,7 @@ public class PreparedStatementStudentRepository implements StudentRepository {
     @Override
     public Optional<Student> findById(String id){
         //todo#2 학생 조회
-        String sql = "update jdbc_students set name=?,gender=?,age=? where id=?";
+        String sql = "select * from jdbc_students where id=?";
         log.debug("findById: {}", sql);
         ResultSet rs = null;
         try(Connection connection = DbUtils.getConnection();
@@ -95,10 +95,12 @@ public class PreparedStatementStudentRepository implements StudentRepository {
         try(Connection connection = DbUtils.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
+            int result = statement.executeUpdate();
+            log.debug("result:{}",result);
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 0;
     }
 
 }
