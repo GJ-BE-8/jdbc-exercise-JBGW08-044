@@ -17,14 +17,15 @@ public class PreparedStatementStudentRepository implements StudentRepository {
         String sql = "insert into jdbc_students(id,name,gender,age) values(?,?,?,?)";
         log.debug("save: {}",sql);
 
-        try(Connection connection = DbUtils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, student.getId());
-            preparedStatement.setString(2, student.getName());
-            preparedStatement.setString(3, student.getGender().toString());
-            preparedStatement.setInt(4, student.getAge());
+        try(Connection connection = DbUtils.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);) {
 
-            int result = preparedStatement.executeUpdate();
+            statement.setString(1, student.getId());
+            statement.setString(2, student.getName());
+            statement.setString(3, student.getGender().toString());
+            statement.setInt(4, student.getAge());
+
+            int result = statement.executeUpdate();
             log.debug("result: {}", result);
             return result;
         } catch (SQLException e) {
