@@ -13,6 +13,12 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     public Optional<Account> findByAccountNumber(Connection connection, long accountNumber){
         //todo#1 계좌-조회
+        String sql = "SELECT * FROM account WHERE account_number = ?";
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, accountNumber);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return Optional.empty();
     }
 
