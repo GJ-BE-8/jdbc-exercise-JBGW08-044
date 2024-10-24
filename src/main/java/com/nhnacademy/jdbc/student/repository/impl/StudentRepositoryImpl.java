@@ -123,13 +123,35 @@ public class StudentRepositoryImpl implements StudentRepository {
     @Override
     public long totalCount(Connection connection) {
         //todo#4 totalCount 구현
+        String sql = "select count(*) from jdbc_students";
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                return rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return 0l;
     }
 
     @Override
     public Page<Student> findAll(Connection connection, int page, int pageSize) {
         //todo#5 페이징 처리 구현
-        return null;
+        String sql = "select * from jdbc_students limit ?,?";
+        ResultSet rs = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, (page - 1) * pageSize);
+            statement.setInt(2, pageSize);
+            rs = statement.executeQuery();
+            List<Student> studentList = new ArrayList<>(pageSize);
+            while(rs.next()){
+                studentList.add(new Student(rs.getString("id"), rs.getString("name"), Student.GENDER.valueOf(rs.getString("gender")), rs.getInt("age"), rs.getTimestamp("created_at").toLocalDateTime()));
+            }
+            return new Page<>(studentList, this.totalCount(connection));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
