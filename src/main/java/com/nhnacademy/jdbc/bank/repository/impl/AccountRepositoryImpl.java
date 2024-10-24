@@ -67,6 +67,12 @@ public class AccountRepositoryImpl implements AccountRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return count;
     }
