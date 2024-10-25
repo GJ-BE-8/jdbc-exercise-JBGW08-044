@@ -140,8 +140,10 @@ public class StudentRepositoryImpl implements StudentRepository {
         //todo#5 페이징 처리 구현
         String sql = "select * from jdbc_students limit ?,?";
         ResultSet rs = null;
+        int index = (page - 1) * pageSize;
+        log.debug("index: {}",index);
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, (page - 1) * pageSize);
+            statement.setInt(1, index);
             statement.setInt(2, pageSize);
             rs = statement.executeQuery();
             List<Student> studentList = new ArrayList<>(pageSize);
