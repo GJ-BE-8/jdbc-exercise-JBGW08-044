@@ -48,6 +48,9 @@ public class RepeatableReadEx2Main {
         Account newAccount = new Account(newAccountNumber,"nhn아카데미30000",10_0000);
 
         //todo#4 connection1<-- 새로운 계좌 30000을 생성합니다.
+        if(bankService.isExistAccount(connection1,newAccountNumber)){
+            bankService.dropAccount(connection1,newAccountNumber);
+        }
         bankService.createAccount(connection1,newAccount);
         connection1.commit();
 
@@ -92,8 +95,9 @@ public class RepeatableReadEx2Main {
         if(bankService.isExistAccount(connection,account1.getAccountNumber())){
             bankService.dropAccount(connection,account1.getAccountNumber());
         }
+
+        bankService.createAccount(connection,account1);
         connection.commit();
         connection.close();
-        bankService.createAccount(connection,account1);
     }
 }
